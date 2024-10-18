@@ -14,10 +14,13 @@
     alert("{{ session('error') }}");
 </script>
 @endif
+
 @if(auth()->check() && auth()->user()->is_admin)
-    <a href="{{ route('produtos.create') }}">Adicionar Produto</a>
+    <a href="{{ route('produtos.index') }}" class="btn-primary p-2 m-2 rounded  ">Adicionar Produto</a>
+
 @endif
-<table border="1" class="table table-striped">
+
+<table border="1" class="table table-striped mt-2">
     <tr>
         <th>Imagem</th>
         <th>ID</th>

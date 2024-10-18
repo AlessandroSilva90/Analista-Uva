@@ -6,16 +6,19 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> --}}
+                        <a class="block w-auto fill-current text-gray-800 dark:text-gray-200  " href="{{ url('/login') }}">Sistema de Vendas - Uva</a>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
+                @if(auth()->user()->is_admin)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('produtos.index')" :active="request()->routeIs('produtos.index')">
                         {{ __('Cadastrar Produtos') }}
                     </x-nav-link>
                 </div>
+                @endif
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('produtos.list')" :active="request()->routeIs('produtos.list')">

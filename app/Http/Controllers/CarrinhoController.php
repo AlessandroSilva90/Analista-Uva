@@ -51,16 +51,18 @@ class CarrinhoController extends Controller
             'nome' =>'required',
             'email' => 'required',
             'cpf' => 'required',
+            'telefone' => 'required',
             ]);
 
 
-        $usuario = User::firstOrCreate(
+        $usuario = User::firstOrCreate( // Verificar se existe o usuario ou se cria um novo
             [
                 'email' => $validar_pedido['email'],
             ],
             [
                 'name' => $validar_pedido['nome'],
                 'cpf' =>$validar_pedido['cpf'],
+                'telefone' =>$validar_pedido['telefone'],
             ]
         );
 

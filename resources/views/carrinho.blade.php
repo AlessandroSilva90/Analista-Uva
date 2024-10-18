@@ -15,7 +15,7 @@
 
     <div class="content m-2">
 
-        <h2>Seus itens do carrinho:</h2>
+        <h2 class="text-5xl font-medium mb-4">Seus itens do carrinho:</h2>
         @foreach ($pedidos as $pedido)
             <x-modais.card
             titulo="{{ $pedido->produto->nome }}"
