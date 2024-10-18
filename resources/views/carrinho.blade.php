@@ -33,7 +33,7 @@
             <input type="text" value="{{ $totalFinal }}">
         </div>
         <div class="endCompras">
-            <form action="{{ route('carrinho.index') }}" method="POST">
+            <form action="{{ route('carrinho.finalizar') }}" method="POST">
                 @csrf
                 <label for="CupomDescontro">Cupom de desconto</label>
                 <input type="text" name="nm_cupom" id="nm_cupom">

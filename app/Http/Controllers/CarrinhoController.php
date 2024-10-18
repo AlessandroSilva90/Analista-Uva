@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\FinalizarCompraJob;
 use App\Services\ProdutosUserService;
 use Illuminate\Http\Request;
 use App\Models\Carrinho;
@@ -109,13 +110,10 @@ class CarrinhoController extends Controller
 
         $pedidos = produtosCarrinho::with('produto')->where('carrinho_id', $carrinho['id'])->get();
 
-
-    //    FinalizarCompraJob::dispatch($user,$pedidos,$token);
+       FinalizarCompraJob::dispatch($user,$pedidos,$token);
 
         return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
     }
-
-
 
     public function destroy(string $id)
     {

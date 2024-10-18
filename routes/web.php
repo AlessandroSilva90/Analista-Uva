@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'carrinho', 'as' => 'carrinho.'], function () {
         Route::get('/', [CarrinhoController::class, 'index'])->name('index');
         Route::post('/', [CarrinhoController::class, 'store'])->name('store');
-        Route::get('/finaliza_compra', [CarrinhoController::class, 'finaliza_compras'])->name('finalizar');
+        Route::post('/finaliza_compra', [CarrinhoController::class, 'finaliza_compras'])->name('finalizar');
         Route::delete('/{carrinho}', [CarrinhoController::class, 'destroy'])->name('destroy');
     });
 
