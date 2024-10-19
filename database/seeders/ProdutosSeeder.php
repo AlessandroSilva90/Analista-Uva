@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\produtos;
 use App\Models\categoria;
+use App\Models\Estoque;
 
 class ProdutosSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class ProdutosSeeder extends Seeder
         $bebida = categoria::firstOrCreate(['name' => 'Bebidas']);
         $alimento = categoria::firstOrCreate(['name' => 'Alimentos']);
 
-        produtos::updateOrCreate(
+        $produto1 = produtos::updateOrCreate(
             [
                 'nome' => 'Café' // Condição de busca
             ],
@@ -30,7 +31,17 @@ class ProdutosSeeder extends Seeder
                 'foto_produto' => 'cafe.jpg'
             ]
         );
-        produtos::updateOrCreate(
+
+        Estoque::updateOrCreate(
+            [
+                'produto_id' => $produto1->id // Condição de busca no estoque
+            ],
+            [
+                'quantidade_disponivel' => 20 // Quantidade de estoque
+            ]
+        );
+
+        $produto2 = produtos::updateOrCreate(
             [
                 'nome' => 'Açucar' // Condição de busca
             ],
@@ -42,6 +53,19 @@ class ProdutosSeeder extends Seeder
                 'foto_produto' => 'acucar.jpg'
             ]
             );
+
+            Estoque::updateOrCreate(
+                [
+                    'produto_id' => $produto2->id // Condição de busca no estoque
+                ],
+                [
+                    'quantidade_disponivel' => 35 // Quantidade de estoque
+                ]
+            );
+
+
+
+
 
 
     }

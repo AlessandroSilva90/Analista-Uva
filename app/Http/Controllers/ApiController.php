@@ -18,7 +18,7 @@ class ApiController extends Controller
     {
          $pedidos = $this->carrinhoService->obterPedidosDoCarrinho($request->token);
 
-         return response()->json($pedidos);
+         return response()->json($pedidos['produtos']);
 
     }
 }

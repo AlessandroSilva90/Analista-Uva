@@ -27,18 +27,32 @@ class CarrinhoController extends Controller
     {
 
         // Acessando os produtos do carrinho do usuário com a service obterPedidosDoCarrinho
-        $pedidos = $this->carrinhoService->obterPedidosDoCarrinho();
+        $informacoesdocarrinho = $this->carrinhoService->obterPedidosDoCarrinho();
 
-        $totalFinal = 0;
-        foreach ($pedidos as $pedido) { //percorrer para acessar o produto
-            $totalFinal += $pedido->produto->preco_venda; // Calcula o total
+        // corrigir o erro de carrinho vazio
+        if (isset($informacoesdocarrinho['carrinho'])) {
+            $carrinho = $informacoesdocarrinho['carrinho'];
+        } else {
+            $carrinho = null;
         }
 
-        // foreach ($pedidos as $pedido) {
-        //     dd($pedido->produto->foto_produto); // Acessa a descrição do produto de cada pedido
-        // }
+        if (isset($informacoesdocarrinho['produtos'])) {
+            $pedidos = $informacoesdocarrinho['produtos'];
+        } else {
+            $pedidos = collect();
+        }
 
-        return view('carrinho', compact('pedidos', 'totalFinal'));
+        $total = 0;
+        foreach ($pedidos as $pedido) { //percorrer para acessar o produto
+            $total += $pedido->produto->preco_venda; // Calcula o total
+        }
+        $totalFinal=0;
+        if($carrinho){
+            $desconto = ($carrinho->porc_desconto / 100) * $total;
+            $totalFinal = $total - $desconto;
+        }
+
+        return view('carrinho', compact('pedidos', 'total','carrinho','totalFinal'));
     }
     public function store(Request $request)
     {
@@ -87,7 +101,7 @@ class CarrinhoController extends Controller
             $estoque->save();
 
             // Redireciona com mensagem de sucesso
-            return redirect()->route('produtos.list')->with('success', 'Produto adicionado no carrinho com sucesso! ' . $validar_pedido['produtos_id']);
+            return redirect()->route('carrinho.index')->with('success', 'Produto adicionado no carrinho com sucesso! ' . $validar_pedido['produtos_id']);
         } catch (\Exception $e) {
 
             // Redireciona com mensagem de erro

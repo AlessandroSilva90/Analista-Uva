@@ -25,6 +25,13 @@ class ProdutosUserService
             return collect(); // Retorna uma coleção vazia se não houver carrinho
         }
 
-        return produtosCarrinho::with('produto')->where('carrinho_id', $carrinho->id)->get();
+        $produtos = produtosCarrinho::with('produto')->where('carrinho_id', $carrinho->id)->get();
+
+        return [
+            'carrinho' => $carrinho,
+            'produtos' => $produtos,
+        ];
+
+        // return produtosCarrinho::with('produto')->where('carrinho_id', $carrinho->id)->get();
     }
 }
