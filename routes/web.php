@@ -31,7 +31,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [CategoriaController::class, 'destroy'])->name('destroy');
     });
 
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -40,16 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'produtos', 'as' => 'produtos.'], function () {
         // Formulário de criação de produto
         Route::get('/produtos', [ProdutosController::class, 'index'])->name('index');
-
         // Inserir um novo produto
         Route::post('/', [ProdutosController::class, 'store'])->name('store');
-
         // Editar um produto específico
         Route::get('/{produto}/edit', [ProdutosController::class, 'edit'])->name('edit');
-
         // Atualizar um produto específico
         Route::put('/{produto}', [ProdutosController::class, 'update'])->name('update');
-
         // Deletar um produto específico
         Route::delete('/{produto}', [ProdutosController::class, 'destroy'])->name('destroy');
 

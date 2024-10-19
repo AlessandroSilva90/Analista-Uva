@@ -50,7 +50,10 @@
                     data-descricao="{{ $produto->descricao }}"
                     data-preco_venda="{{ $produto->preco_venda }}"
                     data-preco_compra="{{ $produto->preco_compra }}"
-                    data-foto_produto="">
+                    data-foto_produto=""
+                    data-qtd_estoque ="{{$produto->estoque->quantidade_disponivel}}"
+                    >
+
                 Editar
             </button>
                 <form action="{{ route('produtos.destroy', $produto) }}" method="POST" style="display:inline;">
@@ -79,6 +82,7 @@ $(document).ready(function() {
         const produtoPrecoVenda = $(this).data('preco_venda');
         const produtoPrecoCompra = $(this).data('preco_compra');
         const produtoFoto = $(this).data('foto_produto');
+        const qtd_estoque = $(this).data('qtd_estoque');
 
         $('#editForm').attr('action', '/produtos/' + produtoId); // Atualiza a URL de ação
         $('#editNome').val(produtoNome);
@@ -86,6 +90,7 @@ $(document).ready(function() {
         $('#editPrecoVenda').val(produtoPrecoVenda);
         $('#editPrecoCompra').val(produtoPrecoCompra);
         $('#editFotoProduto').val(produtoFoto); // Não é possível preencher campos de arquivo
+        $('#qtd_estoque').val(qtd_estoque);
 
         $('#editModal').modal('show');
     });

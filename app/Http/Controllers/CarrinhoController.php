@@ -23,13 +23,10 @@ class CarrinhoController extends Controller
         $this->carrinhoService = $carrinhoService;
     }
 
-    // Utilizei a index para fazer a aplicação do desconto
     public function index()
     {
-        // $user  = Auth::user()->id;
-        // $carrinho = carrinho::where('id_usuario',$user)->first();
 
-        // $pedidos = pedido_carrinho::with('produto')->where('carrinho_id', $carrinho['id'])->get();
+        // Acessando os produtos do carrinho do usuário com a service obterPedidosDoCarrinho
         $pedidos = $this->carrinhoService->obterPedidosDoCarrinho();
 
         $totalFinal = 0;
@@ -101,24 +98,42 @@ class CarrinhoController extends Controller
     public function finaliza_compras()
     {
         $user  = Auth::user();
-        $carrinho = carrinho::where('id_usuario', $user->id)->first();
-
-        $token = Str::random(40);
-        $carrinho->token = $token;
-        $carrinho->status = 'Comprado'; // Atualiza o status
-        $carrinho->save();
+        $carrinho = carrinho::where('id_usuario', $user->id)
+        ->where('status','Aguardando')->first();
 
         $pedidos = produtosCarrinho::with('produto')->where('carrinho_id', $carrinho['id'])->get();
 
-        FinalizarCompraJob::dispatch($user, $pedidos, $token);
+        try {
+            // Gera o token e atualiza o status do carrinho
+            $token = Str::random(40);
+            $carrinho->token = $token;
+            $carrinho->status = 'Comprado';
+            $carrinho->save();
 
-        return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
+            // Despacha o job para finalizar a compra
+            FinalizarCompraJob::dispatch($user, $pedidos, $token);
+
+            return redirect()->route('carrinho.index')->with('success', 'Compra finalizada. Mensagem enviada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->route('carrinho.index')->with('error', 'Ocorreu um erro ao finalizar a compra. Tente novamente.');
+        }
+
+
+
     }
 
     public function destroy(string $id)
     {
         $produto = produtosCarrinho::findOrFail($id);
+
+        $estoque = Estoque::where('produto_id', $produto->produtos_id)->first();
+        if ($estoque) {
+            $estoque->quantidade_disponivel += 1;
+            $estoque->save();
+        }
+
         $produto->delete($id);
+
 
         return redirect()->route('produtos.list')->with('success', 'Item DELETADO com sucesso!');
     }
