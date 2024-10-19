@@ -13,7 +13,7 @@ class produtosCarrinho extends Model
 
      protected $fillable = [
         'carrinho_id',
-        'produtos_id',// Certifique-se de que todos os campos estão aqui
+        'produtos_id',
     ];
 
     public function produto()

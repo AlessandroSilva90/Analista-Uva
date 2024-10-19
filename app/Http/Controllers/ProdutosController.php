@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\produtos;
 use App\Models\Estoque;
+use App\Models\categoria;
 
 class ProdutosController extends Controller
 {
@@ -16,8 +17,8 @@ class ProdutosController extends Controller
     {
         // $produtos = Produtos::with('estoque')->get();
         // return view('list_produtos',compact('produtos'));
-
-        return view('Produtos.cadastrar_produto_view');
+        $categorias = categoria::all();
+        return view('Produtos.cadastrar_produto_view',compact('categorias'));
 
     }
 
@@ -39,8 +40,10 @@ class ProdutosController extends Controller
             'descricao'=>'required',
             'preco_venda'=>'required',
             'preco_compra'=>'required',
-            'foto_produto'=>'required'
+            'foto_produto'=>'required',
+            'id_categoria'=>'required'
         ]);
+
 
         $produto_Existe = produtos::where('nome',$request->nome)->first();
 
@@ -81,7 +84,8 @@ class ProdutosController extends Controller
                 'descricao' => $request->descricao,
                 'preco_venda' => $request->preco_venda,
                 'preco_compra' => $request->preco_compra,
-                'foto_produto' => $fileNameToStore
+                'foto_produto' => $fileNameToStore,
+                'id_categoria'=>$request->id_categoria
             ]);
 
             // Cria a entrada no estoque para o novo produto
@@ -97,7 +101,8 @@ class ProdutosController extends Controller
 
     public function produtos_list()
     {
-        $produtos = Produtos::with('estoque')->get();
+        $produtos = Produtos::with('estoque')->
+        with('categoria')->get();
 
         return view('Produtos/list_produtos',compact('produtos'));
     }

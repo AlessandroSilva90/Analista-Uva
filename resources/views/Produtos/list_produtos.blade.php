@@ -29,6 +29,7 @@
             <th>ID</th>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Categoria</th>
             <th>Preço</th>
             <th>Qtd Disponível</th>
             <th>Ações</th>
@@ -39,6 +40,7 @@
             <td class="">{{ $produto->id }}</td>
             <td class="">{{ $produto->nome }}</td>
             <td class="max-w-7">{{ $produto->descricao }}</td>
+            <td class="max-w-7">{{ $produto->categoria->name ?? "Categoria não associada" }}</td>
             <td class="">{{ $produto->preco_venda }}</td>
             <td class="">{{  $produto->estoque ? $produto->estoque->quantidade_disponivel : 0 }}</td>
             <td class="flex">

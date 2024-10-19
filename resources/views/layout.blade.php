@@ -63,7 +63,7 @@
             <div class="container-fluid">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/login') }}">Login</a>
+                        <a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('produtos.list') }}">Produtos</a>

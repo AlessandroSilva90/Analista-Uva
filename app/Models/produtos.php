@@ -16,7 +16,8 @@ class produtos extends Model
         'descricao',
         'preco_venda',
         'preco_compra',
-        'foto_produto'
+        'foto_produto',
+        'id_categoria'
     ];
 
     public function pedidos()
@@ -27,4 +28,10 @@ class produtos extends Model
     public function estoque(){
         return $this->hasOne(estoque::class,'produto_id');
     }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria');
+    }
+
 }

@@ -4,16 +4,13 @@ use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\CupomDescontoController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
 |
 */
 
@@ -26,6 +23,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+
+    Route::group(['prefix' => 'categoria', 'as' => 'categoria.'], function () {
+        Route::get('/', [CategoriaController::class, 'index'])->name('index');
+        Route::post('/', [CategoriaController::class, 'store'])->name('store');
+        Route::delete('/{id}', [CategoriaController::class, 'destroy'])->name('destroy');
+    });
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -47,9 +53,6 @@ Route::middleware('auth')->group(function () {
         // Deletar um produto específico
         Route::delete('/{produto}', [ProdutosController::class, 'destroy'])->name('destroy');
 
-        // Rota opcional se produtos_list for necessária (não é recomendada se já tiver o index)
-        // Route::get('/produtos_list', [ProdutosController::class, 'produtos_list'])->name('list');
-
     });
 
     // Rota para o carrinho
@@ -61,10 +64,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{carrinho}', [CarrinhoController::class, 'destroy'])->name('destroy');
     });
 
-    Route::post('cupom_desconto', [CupomDescontoController::class,'store'])->name('cupom_desconto.store');
-
+    Route::post('cupom_desconto', [CupomDescontoController::class, 'store'])->name('cupom_desconto.store');
 });
 
 
 Route::get('/produtos', [ProdutosController::class, 'produtos_list'])->name('produtos.list');
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

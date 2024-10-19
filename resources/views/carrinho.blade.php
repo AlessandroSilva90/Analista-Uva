@@ -16,6 +16,11 @@
     <div class="content m-2">
 
         <h2 class="text-5xl font-medium mb-4">Seus itens do carrinho:</h2>
+
+@if (!$pedidos)
+    <p>Você está sem produtos no carrinho</p>
+@else
+
         <ul>
             @foreach ($pedidos as $pedido)
                 <li>
@@ -53,4 +58,5 @@
         </div>
 
     </div>
+    @endif
 @endsection
