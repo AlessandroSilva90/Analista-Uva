@@ -16,13 +16,14 @@
     <div class="content m-2">
 
         <h2 class="text-5xl font-medium mb-4">Seus itens do carrinho:</h2>
-        @foreach ($pedidos as $pedido)
-            <x-modais.card
-            titulo="{{ $pedido->produto->nome }}"
-            descricao="{{ $pedido->produto->descricao }}"
-            carrinhoId="{{ $pedido->id }}"
-            fotoproduto="{{ $pedido->produto->foto_produto }}" />
-        @endforeach
+        <ul>
+            @foreach ($pedidos as $pedido)
+                <li>
+                    <x-modais.card titulo="{{ $pedido->produto->nome }}" descricao="{{ $pedido->produto->descricao }}"
+                        carrinhoId="{{ $pedido->id }}" fotoproduto="{{ $pedido->produto->foto_produto }}" />
+            @endforeach
+            </li>
+        </ul>
 
 
         @if (session('totalFinal'))
@@ -30,13 +31,23 @@
         @endif
 
         <div class="total">
-            <input type="text" value="{{ $totalFinal }}">
+            <input type="text" value="{{ $totalFinal }}" disabled class="form-control text-black">
         </div>
-        <div class="endCompras">
+
+        <div class="cupom">
+            <form action="{{ route('cupom_desconto.store') }}" method="POST" class="p-8 m-8 bg-white max-w-20 text-black">
+                @csrf
+                <label for="CupomDescontro ">Cupom de desconto</label>
+                <div class="flex flex-row w-1/2 gap-3">
+                    <input type="text" name="nm_cupom" id="nm_cupom" class="form-control max-w-4">
+                    <button type="submit" class="btn btn-outline-success">Aplicar cupom</button>
+
+                </div>
+            </form>
+        </div>
+        <div class="endCompras ">
             <form action="{{ route('carrinho.finalizar') }}" method="POST">
                 @csrf
-                <label for="CupomDescontro">Cupom de desconto</label>
-                <input type="text" name="nm_cupom" id="nm_cupom">
                 <button type="submit" class="btn btn-outline-success">Finalizar</button>
             </form>
         </div>

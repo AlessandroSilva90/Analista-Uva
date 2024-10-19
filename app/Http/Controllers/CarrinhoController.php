@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 class CarrinhoController extends Controller
 {
 
-     protected $carrinhoService;
+    protected $carrinhoService;
 
     public function __construct(ProdutosUserService $carrinhoService)
     {
@@ -34,25 +34,25 @@ class CarrinhoController extends Controller
 
         $totalFinal = 0;
         foreach ($pedidos as $pedido) { //percorrer para acessar o produto
-            $totalFinal += $pedido->produto->preco_venda ; // Calcula o total
+            $totalFinal += $pedido->produto->preco_venda; // Calcula o total
         }
 
         // foreach ($pedidos as $pedido) {
         //     dd($pedido->produto->foto_produto); // Acessa a descrição do produto de cada pedido
         // }
 
-        return view('carrinho',compact('pedidos','totalFinal'));
+        return view('carrinho', compact('pedidos', 'totalFinal'));
     }
     public function store(Request $request)
     {
 
         $validar_pedido = $request->validate([
             'produtos_id' => 'required|exists:produtos,id', // Verifica se o produto existe
-            'nome' =>'required',
+            'nome' => 'required',
             'email' => 'required',
             'cpf' => 'required',
             'telefone' => 'required',
-            ]);
+        ]);
 
 
         $usuario = User::firstOrCreate( // Verificar se existe o usuario ou se cria um novo
@@ -61,8 +61,8 @@ class CarrinhoController extends Controller
             ],
             [
                 'name' => $validar_pedido['nome'],
-                'cpf' =>$validar_pedido['cpf'],
-                'telefone' =>$validar_pedido['telefone'],
+                'cpf' => $validar_pedido['cpf'],
+                'telefone' => $validar_pedido['telefone'],
             ]
         );
 
@@ -71,7 +71,7 @@ class CarrinhoController extends Controller
                 'id_usuario' => $usuario->id, // Condição de busca
                 'status' => 'Aguardando' // Condição de busca
             ]
-            );
+        );
 
         $estoque = Estoque::where('produto_id', $validar_pedido['produtos_id'])->first();
 
@@ -89,30 +89,28 @@ class CarrinhoController extends Controller
             $estoque->quantidade_disponivel -= 1; // Ajuste se necessário para mais de um item
             $estoque->save();
 
-
             // Redireciona com mensagem de sucesso
-            return redirect()->route('produtos.list')->with('success', 'Produto adicionado no carrinho com sucesso! '. $validar_pedido['produtos_id']);
+            return redirect()->route('produtos.list')->with('success', 'Produto adicionado no carrinho com sucesso! ' . $validar_pedido['produtos_id']);
         } catch (\Exception $e) {
 
             // Redireciona com mensagem de erro
-            return redirect()->route('produtos.list')->with('error', 'Erro ao adicionar produto no carrinho. Tente novamente.'. $validar_pedido['produtos_id']);
+            return redirect()->route('produtos.list')->with('error', 'Erro ao adicionar produto no carrinho. Tente novamente.' . $validar_pedido['produtos_id']);
         }
-
-
     }
 
-    public function finaliza_compras(){
-        $user  = Auth::user() ;
-        $carrinho = carrinho::where('id_usuario',$user->id)->first();
+    public function finaliza_compras()
+    {
+        $user  = Auth::user();
+        $carrinho = carrinho::where('id_usuario', $user->id)->first();
 
         $token = Str::random(40);
         $carrinho->token = $token;
-        $carrinho->status = 'Comprado'; // Atualiza o status se necessário
+        $carrinho->status = 'Comprado'; // Atualiza o status
         $carrinho->save();
 
         $pedidos = produtosCarrinho::with('produto')->where('carrinho_id', $carrinho['id'])->get();
 
-       FinalizarCompraJob::dispatch($user,$pedidos,$token);
+        FinalizarCompraJob::dispatch($user, $pedidos, $token);
 
         return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
     }

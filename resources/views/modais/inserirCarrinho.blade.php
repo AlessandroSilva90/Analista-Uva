@@ -1,4 +1,25 @@
 <!-- Modal -->
+@if (auth()->check())
+
+<script>
+    $(document).ready(function() {
+        $('#cadCompraComprador').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+
+            const nm_comprador = button.data('nomeComprador') || '{{ auth()->user()->name }}';
+            const cpf = button.data('cpf') || '{{ auth()->user()->cpf }}';
+            const telefone = button.data('telefone') || '{{ auth()->user()->telefone }}';
+            const email = button.data('email') || '{{ auth()->user()->email }}';
+
+            $('#nomeComprador').val(nm_comprador);
+            $('#cpf').val(cpf);
+            $('#telefone').val(telefone);
+            $('#email').val(email);
+        });
+    });
+</script>
+@endif
+
 <div class="modal fade" id="cadCompraComprador" tabindex="-1" role="dialog" aria-labelledby="cadCompraComprador" aria-hidden="true">0
     <div class="modal-dialog" role="document">
         <div class="modal-content">

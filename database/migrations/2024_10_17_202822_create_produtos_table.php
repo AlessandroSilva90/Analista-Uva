@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('descricao');
             $table->double('preco_venda');
             $table->double('preco_compra');
-            $table->string('foto_produto');
+            $table->string('foto_produto')->nullable();
         });
     }
 

@@ -98,6 +98,7 @@ class ProdutosController extends Controller
     public function produtos_list()
     {
         $produtos = Produtos::with('estoque')->get();
+
         return view('Produtos/list_produtos',compact('produtos'));
     }
 
@@ -129,6 +130,7 @@ class ProdutosController extends Controller
         'preco_venda' => 'required|numeric',
         'preco_compra' => 'required|numeric',
         'foto_produto' => 'nullable|image',
+        'qtd_estoque' => 'required|numeric',
     ]);
     try {
         $produto = Produtos::findOrFail($id);
@@ -174,11 +176,25 @@ class ProdutosController extends Controller
             'preco_compra' => $request->preco_compra,
             // A foto só será atualizada se um novo arquivo for enviado
         ]);
+
+        $estoque = Estoque::where('produto_id', $produto->id)->first();
+        if ($estoque) {
+            // Atualiza a quantidade disponível
+            $estoque->quantidade_disponivel += $request->qtd_estoque;
+            $estoque->save();
+        } else {
+            // Se não houver entrada no estoque, cria uma nova
+            Estoque::create([
+                'produto_id' => $produto->id,
+                'quantidade_disponivel' => $request->qtd_estoque,
+            ]);
+        }
+
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Erro ao atualizar o produto: ' . $e->getMessage());
     }
 
-    return redirect()->route('produtos.create')->with('success', 'Produto atualizado com sucesso!');
+    return redirect()->route('produtos.list')->with('success', 'Produto atualizado com sucesso!');
 }
 
 
@@ -191,6 +207,6 @@ class ProdutosController extends Controller
         $produto = ProdutoS::findOrFail($id);
         $produto->delete($id);
 
-        return redirect()->route('produtos.create')->with('success', 'Produto DELETADO com sucesso!');
+        return redirect()->route('produtos.list')->with('success', 'Produto DELETADO com sucesso!');
     }
 }

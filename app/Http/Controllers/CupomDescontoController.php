@@ -23,6 +23,9 @@ class CupomDescontoController extends Controller
 
         $pedidos = produtosCarrinho::with('produto')->where('carrinho_id', $carrinho['id'])->get();
 
+        $carrinho->porc_desconto =  $cupom_details->porc_desconto;
+        $carrinho->save();
+
         // $total = $pedidos->sum(function ($pedido) {
         //     return $pedido->preco * $pedido->quantidade;
         // });

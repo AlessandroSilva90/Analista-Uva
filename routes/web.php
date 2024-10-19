@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarrinhoController;
+use App\Http\Controllers\CupomDescontoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +32,8 @@ Route::middleware('auth')->group(function () {
 
     // Route::resource('/produtos',ProdutosController::class);
     Route::group(['prefix' => 'produtos', 'as' => 'produtos.'], function () {
-        // Exibir a lista de produtos
-        Route::get('/', [ProdutosController::class, 'index'])->name('index');
-
         // Formulário de criação de produto
-        Route::get('/create', [ProdutosController::class, 'create'])->name('create');
+        Route::get('/produtos', [ProdutosController::class, 'index'])->name('index');
 
         // Inserir um novo produto
         Route::post('/', [ProdutosController::class, 'store'])->name('store');
@@ -50,7 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{produto}', [ProdutosController::class, 'destroy'])->name('destroy');
 
         // Rota opcional se produtos_list for necessária (não é recomendada se já tiver o index)
-        Route::get('/produtos_list', [ProdutosController::class, 'produtos_list'])->name('list');
+        // Route::get('/produtos_list', [ProdutosController::class, 'produtos_list'])->name('list');
 
     });
 
@@ -63,6 +61,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{carrinho}', [CarrinhoController::class, 'destroy'])->name('destroy');
     });
 
+    Route::post('cupom_desconto', [CupomDescontoController::class,'store'])->name('cupom_desconto.store');
+
 });
 
+
+Route::get('/produtos', [ProdutosController::class, 'produtos_list'])->name('produtos.list');
 require __DIR__.'/auth.php';

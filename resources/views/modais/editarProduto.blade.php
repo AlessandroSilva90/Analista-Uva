@@ -29,6 +29,10 @@
                         <input type="number" name="preco_compra" class="form-control" id="editPrecoCompra" required>
                     </div>
                     <div class="form-group">
+                        <label for="qtd_estoque">Quantidade no estoque:</label>
+                        <input type="number" name="qtd_estoque" class="form-control" id="qtd_estoque" required>
+                    </div>
+                    <div class="form-group">
                         <label for="foto_produto">Foto do Produto:</label>
                         <input type="file" name="foto_produto" class="form-control" id="editFotoProduto">
                     </div>

@@ -2,7 +2,8 @@
     <div class="card mb-3 col-md-6" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="{{asset('produtos_foto/'.$fotoproduto)}}" class="img-fluid rounded-start" alt="{{$fotoproduto}}">
+                <img src="{{ asset('produtos_foto/' . $fotoproduto) }}" class="img-fluid rounded-start"
+                    alt="{{ $fotoproduto }}">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -21,4 +22,4 @@
             <button type="submit" class="btn btn-outline-danger">Excluir</button>
         </form>
     </div>
-    </div>
+</div>
