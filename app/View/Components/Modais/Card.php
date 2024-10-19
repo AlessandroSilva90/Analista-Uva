@@ -9,13 +9,15 @@ class Card extends Component
     public $descricao;
     public $carrinhoId;
     public $fotoproduto;
+    public $valor;
 
-    public function __construct($titulo, $descricao, $carrinhoId,$fotoproduto)
+    public function __construct($titulo, $descricao, $carrinhoId,$fotoproduto,$valor)
     {
         $this->titulo = $titulo;
         $this->descricao = $descricao;
         $this->carrinhoId = $carrinhoId;
         $this->fotoproduto = $fotoproduto;
+        $this->valor = $valor;
     }
 
     public function render()

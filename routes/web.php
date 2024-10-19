@@ -54,14 +54,19 @@ Route::middleware('auth')->group(function () {
     // Route::resource('carrinho', CarrinhoController::class);
     Route::group(['prefix' => 'carrinho', 'as' => 'carrinho.'], function () {
         Route::get('/', [CarrinhoController::class, 'index'])->name('index');
-        Route::post('/', [CarrinhoController::class, 'store'])->name('store');
+        // Route::post('/', [CarrinhoController::class, 'store'])->name('store');
         Route::post('/finaliza_compra', [CarrinhoController::class, 'finaliza_compras'])->name('finalizar');
         Route::delete('/{carrinho}', [CarrinhoController::class, 'destroy'])->name('destroy');
     });
 
     Route::post('cupom_desconto', [CupomDescontoController::class, 'store'])->name('cupom_desconto.store');
+    Route::delete('cupom_desconto/{id}', [CupomDescontoController::class, 'delete'])->name('cupom_desconto.delete');
 });
 
 
 Route::get('/produtos', [ProdutosController::class, 'produtos_list'])->name('produtos.list');
+// inserir no carrinho
+Route::post('/carrinho_store', [CarrinhoController::class, 'store'])->name('carrinho.store');
+
+
 require __DIR__ . '/auth.php';

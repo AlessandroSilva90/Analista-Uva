@@ -7,9 +7,9 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $titulo }} </h5>
+                    <h5 class="card-title"><b>{{ $titulo }} </b></h5>
                     <p class="card-text">{{ $descricao }}</p>
-                    {{-- <p class="card-text">{{ $carrinhoId }}</p> --}}
+                    <p class="card-text">R$:{{ $valor }}</p>
                 </div>
             </div>
         </div>

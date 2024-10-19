@@ -29,7 +29,7 @@ class EnviarEmailCompra extends Mailable
     {
         return new Envelope(
             from: new Address($this->data['fromEmail'],$this->data['fromSubject']),
-            subject: 'Compras no sistema',
+            subject: 'teste',
         );
     }
 

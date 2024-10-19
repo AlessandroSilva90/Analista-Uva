@@ -13,15 +13,19 @@ class CupomDescontoController extends Controller
     public function store(Request $request)
     {
         $cupom = $request->validate([
-            'nm_cupom' =>'required|string'
+            'nm_cupom' => 'required|string'
         ]);
 
         $cupom_details = CupomDesconto::where('nm_cupom', $cupom['nm_cupom'])->first();
 
         $user  = Auth::user()->id;
-        $carrinho = Carrinho::where('id_usuario',$user)->first();
+        $carrinho = Carrinho::where('id_usuario', $user)->first();
 
         $pedidos = produtosCarrinho::with('produto')->where('carrinho_id', $carrinho['id'])->get();
+
+        if($cupom_details == null){
+            return redirect()->route('carrinho.index')->with('error', 'Nenhum cupom disponível!');
+        }
 
         $carrinho->porc_desconto =  $cupom_details->porc_desconto;
         $carrinho->save();
@@ -31,16 +35,18 @@ class CupomDescontoController extends Controller
         // });
         $total = 0;
         foreach ($pedidos as $pedido) { //percorrer para acessar o produto
-            $total += $pedido->produto->preco_venda ; // Calcula o total
+            $total += $pedido->produto->preco_venda; // Calcula o total
         }
 
         $desconto = ($cupom_details->porc_desconto / 100) * $total;
         $totalFinal = $total - $desconto;
 
         return redirect()->route('carrinho.index')->with('totalFinal', $totalFinal)
-        ->with('success', 'Cupom adicionado!');
-
+            ->with('success', 'Cupom adicionado!');
     }
 
 
+    // public function delete($id) {
+    //     Cupo
+    // }
 }

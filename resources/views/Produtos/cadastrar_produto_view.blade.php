@@ -21,11 +21,11 @@
         </div>
         <div class="mb-3">
             <label for="preco_venda" class="form-label">Preco de Venda</label>
-            <input type="number" class="form-control" id="preco_venda" name="preco_venda" required>
+            <input type="varchar" class="form-control" id="preco_venda" name="preco_venda" required>
         </div>
         <div class="mb-3">
             <label for="preco_compra" class="form-label">Preco de Compra</label>
-            <input type="number" class="form-control" id="preco_compra" name="preco_compra" required>
+            <input type="varchar" class="form-control" id="preco_compra" name="preco_compra" required>
         </div>
         <div class="mb-3">
             <label for="foto_produto" class="form-label">Foto do produto</label>

@@ -185,7 +185,7 @@ class ProdutosController extends Controller
         $estoque = Estoque::where('produto_id', $produto->id)->first();
         if ($estoque) {
             // Atualiza a quantidade disponível
-            $estoque->quantidade_disponivel += $request->qtd_estoque;
+            $estoque->quantidade_disponivel = $request->qtd_estoque;
             $estoque->save();
         } else {
             // Se não houver entrada no estoque, cria uma nova
@@ -195,11 +195,11 @@ class ProdutosController extends Controller
             ]);
         }
 
+        return redirect()->route('produtos.list')->with('success', 'Produto atualizado com sucesso!');
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Erro ao atualizar o produto: ' . $e->getMessage());
     }
 
-    return redirect()->route('produtos.list')->with('success', 'Produto atualizado com sucesso!');
 }
 
 

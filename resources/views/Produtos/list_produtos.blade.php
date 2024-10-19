@@ -29,7 +29,6 @@
             <th>ID</th>
             <th>Nome</th>
             <th>Descrição</th>
-            <th>Categoria</th>
             <th>Preço</th>
             <th>Qtd Disponível</th>
             <th>Ações</th>
@@ -40,7 +39,6 @@
             <td class="">{{ $produto->id }}</td>
             <td class="">{{ $produto->nome }}</td>
             <td class="max-w-7">{{ $produto->descricao }}</td>
-            <td class="max-w-7">{{ $produto->categoria->name ?? "Categoria não associada" }}</td>
             <td class="">{{ $produto->preco_venda }}</td>
             <td class="">{{  $produto->estoque ? $produto->estoque->quantidade_disponivel : 0 }}</td>
             <td class="flex">
@@ -50,10 +48,7 @@
                     data-descricao="{{ $produto->descricao }}"
                     data-preco_venda="{{ $produto->preco_venda }}"
                     data-preco_compra="{{ $produto->preco_compra }}"
-                    data-foto_produto=""
-                    data-qtd_estoque ="{{$produto->estoque->quantidade_disponivel}}"
-                    >
-
+                    data-foto_produto="">
                 Editar
             </button>
                 <form action="{{ route('produtos.destroy', $produto) }}" method="POST" style="display:inline;">
@@ -82,7 +77,6 @@ $(document).ready(function() {
         const produtoPrecoVenda = $(this).data('preco_venda');
         const produtoPrecoCompra = $(this).data('preco_compra');
         const produtoFoto = $(this).data('foto_produto');
-        const qtd_estoque = $(this).data('qtd_estoque');
 
         $('#editForm').attr('action', '/produtos/' + produtoId); // Atualiza a URL de ação
         $('#editNome').val(produtoNome);
@@ -90,7 +84,6 @@ $(document).ready(function() {
         $('#editPrecoVenda').val(produtoPrecoVenda);
         $('#editPrecoCompra').val(produtoPrecoCompra);
         $('#editFotoProduto').val(produtoFoto); // Não é possível preencher campos de arquivo
-        $('#qtd_estoque').val(qtd_estoque);
 
         $('#editModal').modal('show');
     });
