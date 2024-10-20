@@ -22,11 +22,11 @@
                     </div>
                     <div class="form-group">
                         <label for="preco_venda">Preço de Venda:</label>
-                        <input type="number" name="preco_venda" class="form-control" id="editPrecoVenda" required>
+                        <input type="text" name="preco_venda" class="form-control" id="editPrecoVenda" required>
                     </div>
                     <div class="form-group">
                         <label for="preco_compra">Preço de Compra:</label>
-                        <input type="number" name="preco_compra" class="form-control" id="editPrecoCompra" required>
+                        <input type="text" name="preco_compra" class="form-control" id="editPrecoCompra" required>
                     </div>
                     <div class="form-group">
                         <label for="qtd_estoque">Quantidade no estoque:</label>
