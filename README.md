@@ -63,3 +63,5 @@ Se criado conta no mailtrap copie as informações do servidor smtp e substitua 
 
 * A senha(password) tem que esta como no exemplo acima, se estiver  MAIL_PASSWORD=***********528 o sistema de envio não irá funcionar, então copie as credencias do seu mailtrap com a opção COPY presente na plataforma.
 
+* Caminho para as credenciais: Estar logado na conta mailtrap -> Email Testing -> Inboxes -> Integration -> Aqui você irá altera o Code Sample cUrl para Laravel 9+. Só copiar e fazer os procedimentos ja ditos.
+
